@@ -1,6 +1,4 @@
-<center> 
-![Image of SelectGo](https://github.com/shayonj/SelectGo/blob/master/img/icon256.png?raw=true)
-</center>
+![Image of SelectGo](https://github.com/shayonj/SelectGo/blob/master/img/icon128.png?raw=true)
 
 # SelectGo
 Chrome extension that allows a user to automatically copy and run a google search for the selected text. Addional options include: 
