@@ -17,7 +17,8 @@
   "permissions": [
     "http://*/*",
     "https://*/*",
-    "tabs"
+    "tabs",
+    "storage"
   ],
   "background": {
       "scripts": ["js/background.js"]

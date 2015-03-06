@@ -1,10 +1,41 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
-  <title>SelectGO</title>
+  <title>SelectGo</title>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/select.js"></script>
+  <link rel="stylesheet" href="css/style.css" text="text/css">
 </head>
 <body>
-  <div id="status"></div>
+  <div class="brand">
+    <div class="header">
+      <img src="img/icon48.png" class="image" />
+      <h1>SelectGo</h1>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="myform">
+      <div class="box">
+        <input type="radio" name="selectVal" value="clipboardOnly"> Copy selected text to clipboard only.
+      </div>
+      <div class="box">
+        <input type="radio" name="selectVal" value="searchOnly"> Search the selected text only.
+      </div>
+      <div class="box">
+        <input type="radio" name="selectVal" value="copySearchOnly"> Copy the selected text to clipboard and then search.
+      </div>
+      <div class="box">
+        <input type="radio" name="selectVal" value="optionOnly"> Give me an option on what action should be taken each time text is selected.
+      </div>
+      <div class="box">
+        <input type="radio" name="selectVal" value="disable"> Disbale this bad boy for now.
+      </div>
+      <div class="box">
+        <button id="save" class="btn">Save</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
-
