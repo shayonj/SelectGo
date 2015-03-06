@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+
+  "name": "SelectGo",
+  "description": "Chrome extension that allows a user to automatically copy and run a google search for the selected text. Additonal options included for easier browsing experience.",
+  "version": "1.0",
+  
+  "icons": {
+    "16": "img/icon16.png",
+    "48": "img/icon48.png",
+    "128": "img/icon128.png" 
+  },
+  "browser_action": {
+    "default_icon": "img/icon128.png",
+    "default_popup": "select.html"
+  },
+  "permissions": [
+    "http://*/*",
+    "https://*/*",
+    "tabs"
+  ],
+  "background": {
+      "scripts": ["js/background.js"]
+    },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["js/jquery.min.js","js/select.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}
