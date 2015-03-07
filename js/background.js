@@ -1,33 +1,38 @@
 chrome.runtime.onMessage.addListener(function(request) {
-  // Open Tab
-  if (request && request.type == "tab" && request.text != "") {
-    var text = request.text.replace(/ /g,"+");
-    var newURL = "https://www.google.com/?gws_rd=ssl#q=" + text;
-    chrome.tabs.create({ url: newURL });
-  }
-
-  // Copy to clipboard
-  if (request && request.type == 'copy') {
-    var input = document.createElement('textarea');
-    document.body.appendChild(input);
-    input.value = request.text;
-    input.focus();
-    input.select();
-    document.execCommand('Copy');
-    input.remove();
+  var status = request.status;
+  var text = request.text;
+  // Run actions based on current status set in storage
+  if(status == "clipboardOnly") {
+    copyText(text);
+  } else if(status == "searchOnly") {
+    runSearch(text);
+  } else if(status == "copySearchOnly") {
+    copyText(text);
+    runSearch(text);
+  } else if(status == "optionOnly") {
+    showOptionBox(text);
+  } else if(status == "pause") {
+    // Do nothing for now, because status is set to pause. Maybe handle pause behavior some other way?
   }
 
 });
 
-chrome.storage.onChanged.addListener(function(changes, namespace) {
-  for (key in changes) {
-    var storageChange = changes[key];
-    console.log('Storage key "%s" in namespace "%s" changed. ' +
-    'Old value was "%s", new value is "%s".',
-    key,
-    namespace,
-    storageChange.oldValue,
-    storageChange.newValue);
-  }
-});
+function copyText(text) {
+  var input = document.createElement('textarea');
+  document.body.appendChild(input);
+  input.value = text;
+  input.focus();
+  input.select();
+  document.execCommand('Copy');
+  input.remove();
+}
 
+function runSearch(t) {
+  var text = t.replace(/ /g,"+");
+  var newURL = "https://www.google.com/?gws_rd=ssl#q=" + text;
+  chrome.tabs.create({ url: newURL });
+}
+
+function showOptionBox(text) {
+  
+}

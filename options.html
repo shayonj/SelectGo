@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>SelectGo</title>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/select.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/options.css" text="text/css">
+
+</head>
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">SelectGo</a>
+      </div>
+    </nav>
+    <div id="showAlert">
+    </div>
+    <div class="container">
+      <h3>When text is selected?</h3>
+      <form>
+
+        <div class="radio">
+          <label>
+            <input type="radio" name="generalOptionVal" id="clipboardOnly" value="clipboardOnly" checked>
+            Copy to clipboard only.
+          </label>
+        </div>
+
+        <div class="radio">
+          <label>
+            <input type="radio" name="generalOptionVal" id="searchOnly" value="searchOnly">
+            Run a Google search only.
+          </label>
+        </div>
+
+        <div class="radio">
+          <label>
+            <input type="radio" name="generalOptionVal" id="copySearchOnly" value="copySearchOnly">
+            Copy to clipboard <strong> and </strong> run Google search.
+          </label>
+        </div>
+
+        <div class="radio">
+          <label>
+            <input type="radio" name="generalOptionVal" id="optionOnly" value="optionOnly">
+            Not sure. Show me an option box every time text is selected.
+          </label>
+        </div>
+
+        <div class="radio">
+          <label>
+            <input type="radio" name="generalOptionVal" id="pause" value="pause">
+            Meh. Just pause it all for now.
+          </label>
+        </div>
+
+        <div class="form-group">
+          <a id="generalOptionSave" class="btn btn-default">Update Settings</a>
+      </div>
+
+    </form>
+    <hr>
+      <h3>Additional options</h3>
+      <form>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="urlOpenCheck" id="urlOpenCheck" checked> If detected, open selected as a URL in new tab.
+          </label>
+        </div>
+
+          <div class="form-group">
+            <a id="additionalOptionSave" class="btn btn-default">Update Settings</a>
+        </div>
+
+    </form>
+
+    <footer class="footer">
+      <p>&copy; SelectGo | Developed by <a href="http://github.com/shayonj" target="_blank">shayonj</a></p>
+    </footer>
+
+  </div><!-- /.container -->
+
+</body>
+</html>

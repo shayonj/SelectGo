@@ -4,7 +4,7 @@
   "name": "SelectGo",
   "description": "Chrome extension that allows a user to automatically copy and run a google search for the selected text. Additonal options included for easier browsing experience.",
   "version": "1.0",
-  
+  "options_page": "options.html",
   "icons": {
     "16": "img/icon16.png",
     "48": "img/icon48.png", 
