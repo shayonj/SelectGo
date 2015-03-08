@@ -18,7 +18,8 @@
     "http://*/*",
     "https://*/*",
     "tabs",
-    "storage"
+    "storage",
+    "clipboardWrite"
   ],
   "background": {
       "scripts": ["js/background.js"]
@@ -26,7 +27,8 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["js/jquery.min.js","js/select.js"],
+      "css": ["css/popover.min.css"],
+      "js": ["js/jquery.min.js", "js/popover.min.js", "js/select.js"],
       "run_at": "document_start",
       "all_frames": true
     }

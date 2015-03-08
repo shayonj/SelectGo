@@ -9,10 +9,6 @@ chrome.runtime.onMessage.addListener(function(request) {
   } else if(status == "copySearchOnly") {
     copyText(text);
     runSearch(text);
-  } else if(status == "optionOnly") {
-    showOptionBox(text);
-  } else if(status == "pause") {
-    // Do nothing for now, because status is set to pause. Maybe handle pause behavior some other way?
   }
 
 });

@@ -4,27 +4,62 @@ if(!window.SelectGo){
 
 SelectGo.Selector = {};
 SelectGo.Selector.getSelected = function(){
-  var text = '';
-  if(window.getSelection){
-    text = window.getSelection().toString();
-  }else if(document.selection){
-    text = document.selection.createRange().text;
-  }else if(document.getSelection){
-    text = document.getSelection().toString();
+  var selection = window.getSelection();
+  // Grab the selected text
+  var text = selection.toString();
+  var id = Math.random().toString(36).substring(7); // Creating random unique id
+  // Grab the range of the selection
+  var range = selection.getRangeAt(0);
+  // Wrap selected text with a span id for pop up
+  if(range && text.length > 1){ // Add new node only if something is actually selected
+    var newNode = document.createElement("span");
+    newNode.setAttribute('id', id);
+    range.surroundContents(newNode);
+    var content = '<button id="optionBoxCopy" class="btn">Copy</button> | <a href="#" id="optionBoxSearch">Search</a> | <a href="#" id="optionBoxCopy">Ignore (ESC Key)</a>';
+    $('#'+id).webuiPopover({placement:'auto',content: content,closeable:true, trigger: "click"});
   }
-  return text;
+  return [text, id];
 }
 
 SelectGo.Selector.mouseup = function(){
-  var text = SelectGo.Selector.getSelected();
+  var sel = SelectGo.Selector.getSelected();
+  var text = sel[0];
+  var id = sel[1];
   if(text!=''){
     // Get current user defined status set in the storage
     chrome.storage.sync.get('selectStatus', function (obj) {
-      // then send the status and text to background
-      chrome.runtime.sendMessage({
-        status: obj.selectStatus,
-        text: text
-      });
+
+      if(obj.selectStatus == "optionOnly"){
+        // Fire up the popover
+        $("#"+id).click();
+
+        // Trigger copy action
+        $("#optionBoxCopy").click(function() {
+          chrome.runtime.sendMessage({
+            status: "clipboardOnly",
+            text: text
+          });
+          disablePopup(id);
+        });
+
+        // Trigger Search action
+        $("#optionBoxSearch").click(function() {
+          chrome.runtime.sendMessage({
+            status: "searchOnly",
+            text: text
+          });
+          disablePopup(id);
+        });
+
+      } else {
+        // Then send the status and text to background
+        chrome.runtime.sendMessage({
+          status: obj.selectStatus,
+          text: text,
+          id: id
+        });
+      }
+
     });
   }
 }
@@ -43,7 +78,6 @@ $(document).ready(function(){
   $("#additionalOptionSave").click(function() {
     additionalOptionChanges();
   });
-
 });
 
 function addAlert() {
@@ -75,5 +109,9 @@ function additionalOptionChanges() {
       console.log("false");
     });
   }
+}
+
+function disablePopup(id){
+  $('#'+id).webuiPopover("destroy");
 }
 
