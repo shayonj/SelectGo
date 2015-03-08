@@ -3,10 +3,10 @@
 # SelectGo
 Chrome extension that allows a user to automatically copy and run a google search for the selected text. Additional options and features include: 
 
-* Copy to clipboard only when block of text is selected. (To be implemented)
-* Search only when block of text is selected. (To be implemented)
-* Both copy to clipboard and search when block of text is selected. (Implemented)
-* Or Show a neat popup for each select option. (To be implemented)
+* Copy to clipboard only when block of text is selected.
+* Search only when block of text is selected.
+* Both copy to clipboard and search when block of text is selected.
+* Or Show a neat popup for each select option.
 * Detect links and automatically open the link in new tab. (To be implemented)
 
 # Why create another tool?

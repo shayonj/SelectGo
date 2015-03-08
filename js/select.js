@@ -1,24 +1,24 @@
 if(!window.SelectGo){
   SelectGo = {};
 }
-
 SelectGo.Selector = {};
+
 SelectGo.Selector.getSelected = function(){
+
   var selection = window.getSelection();
   // Grab the selected text
   var text = selection.toString();
   var id = Math.random().toString(36).substring(7); // Creating random unique id
-  // Grab the range of the selection
-  var range = selection.getRangeAt(0);
-  // Wrap selected text with a span id for pop up
-  if(range && text.length > 1){ // Add new node only if something is actually selected
+
+  if(text.length > 1){ // Add new node only if something is actually selected
+    var range =  selection.getRangeAt(0);
     var newNode = document.createElement("span");
     newNode.setAttribute('id', id);
-    range.surroundContents(newNode);
-    var content = '<button id="optionBoxCopy" class="btn">Copy</button> | <a href="#" id="optionBoxSearch">Search</a> | <a href="#" id="optionBoxCopy">Ignore (ESC Key)</a>';
-    $('#'+id).webuiPopover({placement:'auto',content: content,closeable:true, trigger: "click"});
+    // Wrap selected text with a span id for pop up
+    range.insertNode(newNode);
   }
-  return [text, id];
+  selection.empty(); // Empty out active selection.
+  return [text, id, selection];
 }
 
 SelectGo.Selector.mouseup = function(){
@@ -31,6 +31,8 @@ SelectGo.Selector.mouseup = function(){
 
       if(obj.selectStatus == "optionOnly"){
         // Fire up the popover
+        var content = '<button id="optionBoxCopy" class="btn">Copy</button> | <a href="#" id="optionBoxSearch">Search</a> | <a href="#" id="optionBoxCopy">Ignore (ESC Key)</a>';
+        $('#'+id).webuiPopover({placement:'auto',content: content,closeable:true, trigger: "click"});
         $("#"+id).click();
 
         // Trigger copy action
@@ -39,6 +41,7 @@ SelectGo.Selector.mouseup = function(){
             status: "clipboardOnly",
             text: text
           });
+          window.getSelection().empty;
           disablePopup(id);
         });
 
@@ -67,6 +70,7 @@ SelectGo.Selector.mouseup = function(){
 //  Things to do with a document ready function
 $(document).ready(function(){
   // Run the text selector on mouseup
+  // $(document).selection.empty();
   $(document).on("mouseup", SelectGo.Selector.mouseup);
 
   // Trigger action on option select settings change
