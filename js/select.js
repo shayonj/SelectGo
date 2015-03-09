@@ -93,11 +93,6 @@ $(document).ready(function(){
   $("#generalOptionSave").click(function() {
     generalOptionChanges();
   });
-
-  // Trigger additional options settings change
-  $("#additionalOptionSave").click(function() {
-    additionalOptionChanges();
-  });
 });
 
 function addAlert() {
@@ -112,23 +107,6 @@ function generalOptionChanges() {
     addAlert();
     console.log(selectStatus);
   });
-}
-
-// Update url open check status to local storage API
-function additionalOptionChanges() {
-  var urlOpenCheckSatus = $("#urlOpenCheck").is(':checked');
-
-  if(urlOpenCheckSatus){
-    chrome.storage.sync.set({'urlOpenCheck': true}, function() {
-      addAlert();
-      console.log("true");
-    });
-  } else {
-    chrome.storage.sync.set({'urlOpenCheck': false}, function() {
-      addAlert();
-      console.log("false");
-    });
-  }
 }
 
 function disablePopup(id){

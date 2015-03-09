@@ -7,7 +7,6 @@ Chrome extension that allows a user to automatically copy and run a google searc
 * Search only when block of text is selected.
 * Both copy to clipboard and search when block of text is selected.
 * Or Show a neat popup for each select option.
-* Detect links and automatically open the link in new tab. (To be implemented)
 
 # Why create another tool?
 To learn. This is my first chrome extension, so the sole purpose of this is to build a tool with customizations suited for my browsing needs with one philosophy in mind - *learn by doing*.
