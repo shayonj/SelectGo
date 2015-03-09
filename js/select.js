@@ -17,8 +17,8 @@ SelectGo.Selector.getSelected = function(){
     //Insert node for the pop up
     range.insertNode(newNode);
     // Create unique content for each popover
-    var content = '<img id="optionBoxCopy'+id+'" style="padding-right:10px" src="chrome-extension://fkaaimpndomdmhfllgemcdondpbilpfo/img/copy.png"/> <img id="optionBoxSearch'+id+'" src="chrome-extension://fkaaimpndomdmhfllgemcdondpbilpfo/img/link.png" />';
-    $('#'+id).webuiPopover({placement:'auto',content: content, width: 170, closeable:true, trigger: "click"});
+    var content = '<img id="optionBoxCopy'+id+'" style="padding-right:10px" src="'+chrome.extension.getURL('img/copy.png')+'"/> <img id="optionBoxSearch'+id+'" src="'+chrome.extension.getURL('img/link.png')+'"/>';
+    $('#'+id).webuiPopover({placement:'auto',content: content, width: 130, closeable:true, trigger: "click"});
   }
   return [text, id, selection];
 }
@@ -30,12 +30,6 @@ SelectGo.Selector.mouseup = function(){
   if(text!=''){
     // Get current user defined status set in the storage
     chrome.storage.sync.get('selectStatus', function (obj) {
-      // Set default status to clipboardOnly if no status found
-      if(obj.selectStatus == null){
-        chrome.storage.sync.set({'selectStatus': "clipboardOnly"}, function() {
-          console.log("clipboardOnly");
-        });
-      }
 
       // Then send the status and text to background
       chrome.runtime.sendMessage({
@@ -84,8 +78,18 @@ SelectGo.Selector.mouseup = function(){
 
 //  Things to do with a document ready function
 $(document).ready(function(){
+
+  // Get current user defined status set in the storage
+  chrome.storage.sync.get('selectStatus', function (obj) {
+    // Set default status to clipboardOnly if no status found
+    if(obj.selectStatus == null){
+      chrome.storage.sync.set({'selectStatus': "clipboardOnly"}, function() {
+        console.log("clipboardOnly");
+      });
+    }
+  });
+
   // Run the text selector on mouseup
-  // $(document).selection.empty();
   $(document).on("mouseup", SelectGo.Selector.mouseup);
 
   // Trigger action on option select settings change
