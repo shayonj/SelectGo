@@ -17,8 +17,8 @@ SelectGo.Selector.getSelected = function(){
     //Insert node for the pop up
     range.insertNode(newNode);
 
-    var content = '<img id="optionBoxCopy" style="padding-right:20px" src="chrome-extension://fkaaimpndomdmhfllgemcdondpbilpfo/img/copy.png"/> <img id="optionBoxSearch" style="padding-right:20px" src="chrome-extension://fkaaimpndomdmhfllgemcdondpbilpfo/img/link.png" />';
-    $('#'+id).webuiPopover({placement:'auto',content: content,closeable:true, trigger: "click"});
+    var content = '<img id="optionBoxCopy" style="padding-right:10px" src="chrome-extension://fkaaimpndomdmhfllgemcdondpbilpfo/img/copy.png"/> <img id="optionBoxSearch" src="chrome-extension://fkaaimpndomdmhfllgemcdondpbilpfo/img/link.png" />';
+    $('#'+id).webuiPopover({placement:'auto',content: content, width: 170, closeable:true, trigger: "click"});
   }
   return [text, id, selection];
 }
@@ -30,9 +30,15 @@ SelectGo.Selector.mouseup = function(){
   if(text!=''){
     // Get current user defined status set in the storage
     chrome.storage.sync.get('selectStatus', function (obj) {
-      if(obj.selectStatus == "optionOnly"){
+      // Set default status to clipboardOnly if no status found
+      if(obj.selectStatus == null){
+        chrome.storage.sync.set({'selectStatus': "clipboardOnly"}, function() {
+          console.log("clipboardOnly");
+        });
+      } else if(obj.selectStatus == "optionOnly"){ // Handle optionOnly individually
         // Fire up the popover
         $("#"+id).click();
+        // Remove selection
         window.getSelection().empty();
 
         // Trigger copy action
@@ -52,7 +58,7 @@ SelectGo.Selector.mouseup = function(){
           });
           disablePopup(id);
         });
-        
+
         $("#ignore").click(function() {
           disablePopup(id);
         });
