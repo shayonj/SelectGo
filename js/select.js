@@ -79,16 +79,6 @@ SelectGo.Selector.mouseup = function(){
 //  Things to do with a document ready function
 $(document).ready(function(){
 
-  // Get current user defined status set in the storage
-  chrome.storage.sync.get('selectStatus', function (obj) {
-    // Set default status to clipboardOnly if no status found
-    if(obj.selectStatus == null){
-      chrome.storage.sync.set({'selectStatus': "clipboardOnly"}, function() {
-        console.log("clipboardOnly");
-      });
-    }
-  });
-
   // Run the text selector on mouseup
   $(document).on("mouseup", SelectGo.Selector.mouseup);
 

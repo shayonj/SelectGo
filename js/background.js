@@ -1,6 +1,15 @@
+chrome.storage.sync.get('selectStatus', function (obj) {
+  if(obj.selectStatus == null){
+    chrome.storage.sync.set({'selectStatus': "clipboardOnly"}, function() {
+      console.log("SelectGo Setup done.")
+    });
+  }
+});
+
 chrome.runtime.onMessage.addListener(function(request) {
   var status = request.status;
   var text = request.text;
+
   // Run actions based on current status set in storage
   if(status == "clipboardOnly") {
     copyText(text);
