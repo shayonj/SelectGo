@@ -4,9 +4,8 @@ if(!window.SelectGo){
 SelectGo.Selector = {};
 
 SelectGo.Selector.getSelected = function(){
-
+  // Grab Selection
   var selection = window.getSelection();
-  // Grab the selected text
   var text = selection.toString();
   var id = Math.random().toString(36).substring(7); // Creating random unique id
 
@@ -14,10 +13,12 @@ SelectGo.Selector.getSelected = function(){
     var range =  selection.getRangeAt(0);
     var newNode = document.createElement("span");
     newNode.setAttribute('id', id);
-    // Wrap selected text with a span id for pop up
+
+    //Insert node for the pop up
     range.insertNode(newNode);
+    // selection.setSingleRange(range);
+    selection.collapseToEnd();
   }
-  selection.empty(); // Empty out active selection.
   return [text, id, selection];
 }
 
@@ -31,7 +32,7 @@ SelectGo.Selector.mouseup = function(){
 
       if(obj.selectStatus == "optionOnly"){
         // Fire up the popover
-        var content = '<button id="optionBoxCopy" class="btn">Copy</button> | <a href="#" id="optionBoxSearch">Search</a> | <a href="#" id="optionBoxCopy">Ignore (ESC Key)</a>';
+        var content = '<button id="optionBoxCopy" class="btn">Copy</button> <button id="optionBoxSearch">Search</button> <button id="ignore">Ignore (ESC Key)<button';
         $('#'+id).webuiPopover({placement:'auto',content: content,closeable:true, trigger: "click"});
         $("#"+id).click();
 
@@ -41,7 +42,6 @@ SelectGo.Selector.mouseup = function(){
             status: "clipboardOnly",
             text: text
           });
-          window.getSelection().empty;
           disablePopup(id);
         });
 
@@ -51,6 +51,10 @@ SelectGo.Selector.mouseup = function(){
             status: "searchOnly",
             text: text
           });
+          disablePopup(id);
+        });
+        
+        $("#ignore").click(function() {
           disablePopup(id);
         });
 
@@ -91,7 +95,7 @@ function addAlert() {
 // Update select status to local storage API
 function generalOptionChanges() {
   var selectStatus = $("input[name='generalOptionVal']:checked").val();
-  
+
   chrome.storage.sync.set({'selectStatus': selectStatus}, function() {
     addAlert();
     console.log(selectStatus);
