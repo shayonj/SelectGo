@@ -6,11 +6,10 @@ SelectGo.Selector = {};
 SelectGo.Selector.getSelected = function(){
   // Grab Selection
   var selection = window.getSelection();
-
   var text = selection.toString();
   var id = Math.random().toString(36).substring(7); // Creating random unique id
 
-  if(text.length > !selection.isCollapsed){ // Add new node only if something is actually selected
+  if(text.length > 1 && !selection.isCollapsed){ // Add new node only if something is actually selected
     var range =  selection.getRangeAt(0);
     var newNode = document.createElement("span");
     newNode.setAttribute('id', id);
@@ -49,7 +48,6 @@ SelectGo.Selector.mouseup = function(){
       chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
           if(request.type == "showOptionBox") {
-
             // Fire up the popover
             $("#"+id).click();
             // Remove selection
