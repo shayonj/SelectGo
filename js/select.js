@@ -59,8 +59,7 @@ SelectGo.Selector.mouseup = function(){
                 status: "clipboardOnly",
                 text: text
               });
-              $(".webui-popover").remove();
-              // disablePopup(id);
+              disablePopup(id);
             });
 
             // Trigger Search action
@@ -110,6 +109,7 @@ function generalOptionChanges() {
 }
 
 function disablePopup(id){
+  window.getSelection().empty();
   $('#'+id).webuiPopover("destroy");
 }
 
