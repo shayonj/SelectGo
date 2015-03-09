@@ -14,6 +14,10 @@
     "default_icon": "img/icon128.png",
     "default_popup": "select.html"
   },
+  "web_accessible_resources": [
+      "img/*.png"
+    ],
+    
   "permissions": [
     "http://*/*",
     "https://*/*",

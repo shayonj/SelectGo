@@ -16,8 +16,9 @@ SelectGo.Selector.getSelected = function(){
 
     //Insert node for the pop up
     range.insertNode(newNode);
-    // selection.setSingleRange(range);
-    selection.collapseToEnd();
+
+    var content = '<img id="optionBoxCopy" style="padding-right:20px" src="chrome-extension://fkaaimpndomdmhfllgemcdondpbilpfo/img/copy.png"/> <img id="optionBoxSearch" style="padding-right:20px" src="chrome-extension://fkaaimpndomdmhfllgemcdondpbilpfo/img/link.png" />';
+    $('#'+id).webuiPopover({placement:'auto',content: content,closeable:true, trigger: "click"});
   }
   return [text, id, selection];
 }
@@ -29,12 +30,10 @@ SelectGo.Selector.mouseup = function(){
   if(text!=''){
     // Get current user defined status set in the storage
     chrome.storage.sync.get('selectStatus', function (obj) {
-
       if(obj.selectStatus == "optionOnly"){
         // Fire up the popover
-        var content = '<button id="optionBoxCopy" class="btn">Copy</button> <button id="optionBoxSearch">Search</button> <button id="ignore">Ignore (ESC Key)<button';
-        $('#'+id).webuiPopover({placement:'auto',content: content,closeable:true, trigger: "click"});
         $("#"+id).click();
+        window.getSelection().empty();
 
         // Trigger copy action
         $("#optionBoxCopy").click(function() {
