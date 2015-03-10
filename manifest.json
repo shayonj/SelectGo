@@ -3,7 +3,7 @@
 
   "name": "SelectGo",
   "description": "Automatically copy and/or run Google search for the selected text in a page. Extra options included for easier browsing experience.",
-  "version": "1.2",
+  "version": "1.2.3",
   "options_page": "options.html",
   "icons": {
     "16": "img/icon16.png",

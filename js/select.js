@@ -18,7 +18,7 @@ SelectGo.Selector.getSelected = function(){
     range.insertNode(newNode);
     // Create unique content for each popover
     var content = '<img id="optionBoxCopy'+id+'" style="padding-right:10px" src="'+chrome.extension.getURL('img/copy.png')+'"/> <img id="optionBoxSearch'+id+'" src="'+chrome.extension.getURL('img/link.png')+'"/>';
-    $('#'+id).webuiPopover({placement:'auto',content: content, width: 130, closeable:true, trigger: "click"});
+    $('#'+id).webuiPopover({placement:'auto',content: content, width: 150, closeable:true, trigger: "click"});
   }
   return [text, id, selection];
 }
@@ -27,7 +27,8 @@ SelectGo.Selector.mouseup = function(){
   var sel = SelectGo.Selector.getSelected();
   var text = sel[0];
   var id = sel[1];
-  if(text!=''){
+  // Check is not empty and not filled with whitespaces only
+  if(text!='' && $.trim(text).length!=0){
     // Get current user defined status set in the storage
     chrome.storage.sync.get('selectStatus', function (obj) {
 
@@ -50,7 +51,7 @@ SelectGo.Selector.mouseup = function(){
             // Trigger copy action
             $("#optionBoxCopy"+id).click(function() {
               chrome.runtime.sendMessage({
-                status: "clipboardOnly",
+                status: {"select": "clipboardOnly", "tab": obj.selectStatus["tab"]},
                 text: text
               });
               disablePopup(id);
@@ -59,7 +60,7 @@ SelectGo.Selector.mouseup = function(){
             // Trigger Search action
             $("#optionBoxSearch"+id).click(function() {
               chrome.runtime.sendMessage({
-                status: "searchOnly",
+                status: {"select": "searchOnly", "tab": obj.selectStatus["tab"]},
                 text: text
               });
               disablePopup(id);
@@ -86,6 +87,7 @@ $(document).ready(function(){
   $("#generalOptionSave").click(function() {
     generalOptionChanges();
   });
+
 });
 
 function addAlert() {
@@ -95,8 +97,9 @@ function addAlert() {
 // Update select status to local storage API
 function generalOptionChanges() {
   var selectStatus = $("input[name='generalOptionVal']:checked").val();
+  var tabStatus = $("input[name='addOptionVal']:checked").val();
 
-  chrome.storage.sync.set({'selectStatus': selectStatus}, function() {
+  chrome.storage.sync.set({'selectStatus': {"select": selectStatus, "tab": tabStatus}}, function() {
     addAlert();
     console.log(selectStatus);
   });

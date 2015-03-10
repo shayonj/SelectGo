@@ -1,24 +1,24 @@
 chrome.storage.sync.get('selectStatus', function (obj) {
   if(obj.selectStatus == null){
-    chrome.storage.sync.set({'selectStatus': "clipboardOnly"}, function() {
+    chrome.storage.sync.set({ 'selectStatus': {"select": "clipboardOnly", "tab": "dontChangeTab"} }, function() {
       console.log("SelectGo Setup done.")
     });
   }
 });
 
 chrome.runtime.onMessage.addListener(function(request) {
-  var status = request.status;
+  var selectStatus = request.status["select"];
+  var tabStatus = request.status["tab"]
   var text = request.text;
-
   // Run actions based on current status set in storage
-  if(status == "clipboardOnly") {
+  if(selectStatus == "clipboardOnly") {
     copyText(text);
-  } else if(status == "searchOnly") {
-    runSearch(text);
-  } else if(status == "copySearchOnly") {
+  } else if(selectStatus == "searchOnly") {
+    runSearch(text, tabStatus);
+  } else if(selectStatus == "copySearchOnly") {
     copyText(text);
-    runSearch(text);
-  } else if(status == "optionOnly"){
+    runSearch(text, tabStatus);
+  } else if(selectStatus == "optionOnly"){
     showOptionBox(text);
   }
 
@@ -34,10 +34,14 @@ function copyText(text) {
   input.remove();
 }
 
-function runSearch(t) {
+function runSearch(t, tabStatus) {
   var text = t.replace(/ /g,"+");
   var newURL = "https://www.google.com/?gws_rd=ssl#q=" + text;
-  chrome.tabs.create({ url: newURL });
+  if(tabStatus == "dontChangeTab"){
+    chrome.tabs.create({url: newURL, selected: false}, function(tab) {});
+  }else {
+    chrome.tabs.create({url: newURL}, function(tab) {});
+  }
 }
 
 function showOptionBox(text) {
