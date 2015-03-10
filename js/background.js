@@ -1,5 +1,5 @@
 chrome.storage.sync.get('selectStatus', function (obj) {
-  if(obj.selectStatus == null){
+  if(obj.selectStatus == null || obj.selectStatus && obj.selectStatus["select"] == null){
     chrome.storage.sync.set({ 'selectStatus': {"select": "clipboardOnly", "tab": "dontChangeTab"} }, function() {
       console.log("SelectGo Setup done.")
     });
