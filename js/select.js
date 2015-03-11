@@ -8,18 +8,6 @@ SelectGo.Selector.getSelected = function(){
   var selection = window.getSelection();
   var text = selection.toString();
   var id = Math.random().toString(36).substring(7); // Creating random unique id
-
-  if(text.length > 1 && !selection.isCollapsed){ // Add new node only if something is actually selected
-    var range =  selection.getRangeAt(0);
-    var newNode = document.createElement("span");
-    newNode.setAttribute('id', id);
-
-    //Insert node for the pop up
-    range.insertNode(newNode);
-    // Create unique content for each popover
-    var content = '<img id="optionBoxCopy'+id+'" style="padding-right:10px" src="'+chrome.extension.getURL('img/copy.png')+'"/> <img id="optionBoxSearch'+id+'" src="'+chrome.extension.getURL('img/link.png')+'"/>';
-    $('#'+id).webuiPopover({placement:'auto',content: content, width: 150, closeable:true, trigger: "click"});
-  }
   return [text, id, selection];
 }
 
@@ -27,8 +15,10 @@ SelectGo.Selector.mouseup = function(){
   var sel = SelectGo.Selector.getSelected();
   var text = sel[0];
   var id = sel[1];
+  var selection = sel[2];
+
   // Check is not empty and not filled with whitespaces only
-  if(text!='' && $.trim(text).length!=0){
+  if(text!='' && text.length > 1 && $.trim(text).length!=0){
     // Get current user defined status set in the storage
     chrome.storage.sync.get('selectStatus', function (obj) {
 
@@ -43,6 +33,19 @@ SelectGo.Selector.mouseup = function(){
       chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
           if(request.type == "showOptionBox") {
+
+            // Check if in range and then add node for popover
+            if (selection && selection.rangeCount > 0){ // Add new node only if something is actually selected
+              var range =  selection.getRangeAt(0);
+              var newNode = document.createElement("span");
+              newNode.setAttribute('id', id);
+              //Insert node for the pop up
+              range.insertNode(newNode);
+              // Create unique content for each popover
+              var content = '<img id="optionBoxCopy'+id+'" style="padding-right:10px" src="'+chrome.extension.getURL('img/copy.png')+'"/> <img id="optionBoxSearch'+id+'" src="'+chrome.extension.getURL('img/link.png')+'"/>';
+              $('#'+id).webuiPopover({placement:'auto',content: content, width: 150, closeable:true, trigger: "click"});
+            }
+
             // Fire up the popover
             $("#"+id).click();
 
