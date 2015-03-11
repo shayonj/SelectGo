@@ -45,8 +45,6 @@ SelectGo.Selector.mouseup = function(){
           if(request.type == "showOptionBox") {
             // Fire up the popover
             $("#"+id).click();
-            // Remove selection
-            window.getSelection().empty();
 
             // Trigger copy action
             $("#optionBoxCopy"+id).click(function() {
