@@ -9,3 +9,7 @@ chrome.storage.sync.get('selectStatus', function (obj) {
   console.log(status);
   $("#"+status).prop( "checked", true );
 });
+
+$(document).ready(function(){
+  $("#versionNum").append("v"+chrome.runtime.getManifest().version);
+});
