@@ -80,31 +80,23 @@ SelectGo.Selector.mouseup = function(){
 
 //  Things to do with a document ready function
 $(document).ready(function(){
-
   // Run the text selector on mouseup
   $(document).on("mouseup", SelectGo.Selector.mouseup);
-
-  // Trigger action on option select settings change
-  $("#generalOptionSave").click(function() {
-    generalOptionChanges();
+  
+  chrome.storage.sync.get('selectStatus', function (obj) {
+    // Set status to pause on click
+    $("#pause").click(function() {
+      chrome.storage.sync.set({ 'selectStatus': {"select": "pause", "tab": obj.selectStatus["tab"]} }, function() {
+        console.log("SelectGo Setup done.")
+      });
+      window.close();
+    });
+    // Remove pause button if already paused.
+    if(obj.selectStatus["select"] == "pause"){
+      $("#pause").remove();
+    }
   });
-
 });
-
-function addAlert() {
-  $("#showAlert").html("<div class=\"alert alert-success\" role=\"alert\">Changes Updated.</div>");
-}
-
-// Update select status to local storage API
-function generalOptionChanges() {
-  var selectStatus = $("input[name='generalOptionVal']:checked").val();
-  var tabStatus = $("input[name='addOptionVal']:checked").val();
-
-  chrome.storage.sync.set({'selectStatus': {"select": selectStatus, "tab": tabStatus}}, function() {
-    addAlert();
-    console.log(selectStatus);
-  });
-}
 
 function disablePopup(id){
   window.getSelection().empty();

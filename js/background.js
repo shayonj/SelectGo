@@ -21,7 +21,6 @@ chrome.runtime.onMessage.addListener(function(request) {
   } else if(selectStatus == "optionOnly"){
     showOptionBox(text);
   }
-
 });
 
 function copyText(text) {
