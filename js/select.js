@@ -11,16 +11,24 @@ SelectGo.Selector.getSelected = function(){
   return [text, id, selection];
 }
 
-SelectGo.Selector.mouseup = function(){
+SelectGo.Selector.mouseup = function(e){
   var sel = SelectGo.Selector.getSelected();
   var text = sel[0];
   var id = sel[1];
   var selection = sel[2];
 
+
   // Check is not empty and not filled with whitespaces only
-  if(text!='' && text.length > 1 && $.trim(text).length!=0){
+  if(text !='' && text.length > 1 && $.trim(text).length != 0){
+
     // Get current user defined status set in the storage
     chrome.storage.sync.get('selectStatus', function (obj) {
+      // Return false if the status is to not select text from input/text boxes.
+      if (obj.selectStatus["input"] == "dontSelectText") {
+        if ($(e.target).is('input') || $(e.target).is('textarea')) {
+          return 0;
+        }
+      }
 
       // Then send the status and text to background
       chrome.runtime.sendMessage({
@@ -86,7 +94,7 @@ $(document).ready(function(){
   chrome.storage.sync.get('selectStatus', function (obj) {
     // Set status to pause on click
     $("#pause").click(function() {
-      chrome.storage.sync.set({ 'selectStatus': {"select": "pause", "tab": obj.selectStatus["tab"]} }, function() {
+      chrome.storage.sync.set({ 'selectStatus': {"select": "pause", "tab": obj.selectStatus["tab"], "input": obj.selectStatus["input"]} }, function() {
         console.log("SelectGo Setup done.")
       });
       window.close();

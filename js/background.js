@@ -1,6 +1,28 @@
+/*
+ Three Status Types/Hash key-value pair for selectStatus
+
+selectStatus :
+  select :
+    * clipboardOnly
+    * searchOnly
+    * copySearchOnly
+    * optionOnly
+  tab :
+    * dontChangeTab
+    * changeTab
+  input :
+    * dontSelectText
+    * selectText
+*/
+
 chrome.storage.sync.get('selectStatus', function (obj) {
   if(obj.selectStatus == null || obj.selectStatus && obj.selectStatus["select"] == null){
-    chrome.storage.sync.set({ 'selectStatus': {"select": "clipboardOnly", "tab": "dontChangeTab"} }, function() {
+    chrome.storage.sync.set({ 'selectStatus': {"select": "clipboardOnly", "tab": "dontChangeTab", "input": "dontSelectText"} }, function() {
+      console.log("SelectGo Setup done.")
+    });
+  }
+  if(obj.selectStatus == null || obj.selectStatus && obj.selectStatus["input"] == null){
+    chrome.storage.sync.set({ 'selectStatus': {"select": obj.selectStatus["select"], "tab": obj.selectStatus["tab"], "input": "dontSelectText"} }, function() {
       console.log("SelectGo Setup done.")
     });
   }
