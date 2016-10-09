@@ -96,7 +96,7 @@ SelectGo.Selector.mouseup = function(e){
               "debug": false,
               "log": window.console
             };
-            $("<style>.mark,mark{background:#F9690E;color:#fff;padding:.1em}</style>").appendTo("head");
+            $("<style>.mark,mark{background:#29AB87;color:#fff;padding:.1em}</style>").appendTo("head");
             $("body").mark(text, options);
           }
         });
