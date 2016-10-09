@@ -79,6 +79,24 @@ SelectGo.Selector.mouseup = function(e){
             $("#ignore").click(function() {
               disablePopup(id);
             });
+          } else if (request.type == "highlightText") {
+            $("body").unmark();
+            var options = {
+              "element": "mark",
+              "className": "",
+              "exclude": [],
+              "separateWordSearch": false,
+              "accuracy": "partially",
+              "diacritics": true,
+              "synonyms": {},
+              "iframes": false,
+              "acrossElements": false,
+              "caseSensitive": false,
+              "ignoreJoiners": false,
+              "debug": false,
+              "log": window.console
+            };
+            $("body").mark(text, options);
           }
         });
 
@@ -90,11 +108,11 @@ SelectGo.Selector.mouseup = function(e){
 $(document).ready(function(){
   // Run the text selector on mouseup
   $(document).on("mouseup", SelectGo.Selector.mouseup);
-  
+
   chrome.storage.sync.get('selectStatus', function (obj) {
     // Set status to pause on click
     $("#pause").click(function() {
-      chrome.storage.sync.set({ 'selectStatus': {"select": "pause", "tab": obj.selectStatus["tab"], "input": obj.selectStatus["input"]} }, function() {
+      chrome.storage.sync.set({ 'selectStatus': {"select": "pause", "tab": obj.selectStatus["tab"], "input": obj.selectStatus["input"], "highlight": obj.selectStatus["highlight"]} }, function() {
         console.log("SelectGo Setup done.")
       });
       window.close();
@@ -110,4 +128,3 @@ function disablePopup(id){
   window.getSelection().empty();
   $('#'+id).webuiPopover("destroy");
 }
-
