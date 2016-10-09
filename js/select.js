@@ -79,35 +79,53 @@ SelectGo.Selector.mouseup = function(e){
             $("#ignore").click(function() {
               disablePopup(id);
             });
+          } else if (request.type == "highlightText") {
+            $("body").unmark();
+            var options = {
+              "element": "mark",
+              "className": "",
+              "exclude": [],
+              "separateWordSearch": false,
+              "accuracy": "partially",
+              "diacritics": true,
+              "synonyms": {},
+              "iframes": false,
+              "acrossElements": false,
+              "caseSensitive": false,
+              "ignoreJoiners": false,
+              "debug": false,
+              "log": window.console
+            };
+            $("<style>.mark,mark{background:#F9690E;color:#fff;padding:.1em}</style>").appendTo("head");
+            $("body").mark(text, options);
           }
         });
 
-    });
-  }
-}
-
-//  Things to do with a document ready function
-$(document).ready(function(){
-  // Run the text selector on mouseup
-  $(document).on("mouseup", SelectGo.Selector.mouseup);
-  
-  chrome.storage.sync.get('selectStatus', function (obj) {
-    // Set status to pause on click
-    $("#pause").click(function() {
-      chrome.storage.sync.set({ 'selectStatus': {"select": "pause", "tab": obj.selectStatus["tab"], "input": obj.selectStatus["input"]} }, function() {
-        console.log("SelectGo Setup done.")
       });
-      window.close();
-    });
-    // Remove pause button if already paused.
-    if(obj.selectStatus["select"] == "pause"){
-      $("#pause").remove();
     }
+  }
+
+  //  Things to do with a document ready function
+  $(document).ready(function(){
+    // Run the text selector on mouseup
+    $(document).on("mouseup", SelectGo.Selector.mouseup);
+
+    chrome.storage.sync.get('selectStatus', function (obj) {
+      // Set status to pause on click
+      $("#pause").click(function() {
+        chrome.storage.sync.set({ 'selectStatus': {"select": "pause", "tab": obj.selectStatus["tab"], "input": obj.selectStatus["input"], "highlight": obj.selectStatus["highlight"]} }, function() {
+          console.log("SelectGo Setup done.")
+        });
+        window.close();
+      });
+      // Remove pause button if already paused.
+      if(obj.selectStatus["select"] == "pause"){
+        $("#pause").remove();
+      }
+    });
   });
-});
 
-function disablePopup(id){
-  window.getSelection().empty();
-  $('#'+id).webuiPopover("destroy");
-}
-
+  function disablePopup(id){
+    window.getSelection().empty();
+    $('#'+id).webuiPopover("destroy");
+  }

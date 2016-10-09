@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>SelectGo</title>
-  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
   <script type="text/javascript" src="js/options.js"></script>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -58,6 +58,22 @@
         </div>
 
         <hr>
+
+        <h3> Highlight other selected text </h3>
+        <div class="radio">
+          <label>
+            <input type="radio" name="highlightVal" id="highlightText" value="highlightText">
+            Highlight similar text selected in the document.
+          </label>
+        </div>
+
+        <div class="radio">
+          <label>
+            <input type="radio" name="highlightVal" id="dontHighlightText" value="dontHighlightText">
+            Do not highlight similar text selected.
+          </label>
+        </div>
+        <hr>
         <h3> Additional Options </h3>
 
         <strong>When opening a new tab for search?</strong>
@@ -79,27 +95,27 @@
         <div class="radio">
           <label>
             <input type="radio" name="inputBoxSelect" id="dontSelectText" value="dontSelectText">
-              Dont run any SelectGo operations.
+            Dont run any SelectGo operations.
           </label>
         </div>
 
         <div class="radio">
           <label>
             <input type="radio" name="inputBoxSelect" id="selectText" value="selectText">
-             Run the default select option (above).
+            Run the default select option (above).
           </label>
         </div>
 
         <div class="form-group">
           <a id="generalOptionSave" class="btn btn-default">Update Settings</a>
-      </div>
-    </form>
+        </div>
+      </form>
 
-    <footer class="footer">
-      <p>&copy; SelectGo | Developed by <a href="http://github.com/shayonj" target="_blank">shayonj</a> | <a href="mailto:dev@shayon.me">Comments/Feedback</a> | <small><span id="versionNum"></span></small> </p>
-    </footer>
+      <footer class="footer">
+        <p>&copy; SelectGo | Developed by <a href="http://github.com/shayonj" target="_blank">shayonj</a> | <a href="mailto:dev@shayon.me">Comments/Feedback</a> | <small><span id="versionNum"></span></small> </p>
+      </footer>
 
-  </div><!-- /.container -->
+    </div><!-- /.container -->
 
-</body>
-</html>
+  </body>
+  </html>
