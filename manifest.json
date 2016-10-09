@@ -30,7 +30,7 @@
     {
       "matches": ["<all_urls>"],
       "css": ["css/popover.min.css"],
-      "js": ["js/jquery.min.js", "js/popover.min.js", "js/select.js", "js/jquery.mark.min.js"],
+      "js": ["js/vendor/jquery.min.js", "js/vendor/popover.min.js", "js/select.js", "js/vendor/jquery.mark.min.js"],
       "run_at": "document_start",
       "all_frames": true
     }
